@@ -1,26 +1,25 @@
 package com.gabriel.coursespring.services;
-
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gabriel.coursespring.entities.User;
-import com.gabriel.coursespring.repositories.UserRepository;
+import com.gabriel.coursespring.entities.Order;
+import com.gabriel.coursespring.repositories.OrderRepository;
 
 @Service
-public class UserService{
+public class OrderService {
 	
 	@Autowired
-	private UserRepository repository;
+	private OrderRepository repository;
 
-	public List<User> findAlList(){
+	public List<Order> findAlList(){
 		return repository.findAll();
 	}
 	
-	public User findById(Long id) {
-		Optional<User> obj = repository.findById(id);
+	public Order findById(Long id) {
+		Optional<Order> obj = repository.findById(id);
 		return obj.get();
 		
 	}
