@@ -21,7 +21,7 @@ public class ProductResource {
 	
 	@GetMapping
 	public ResponseEntity<List<Product>> findAll(){
-		List<Product> list = service.findAlList();
+		List<Product> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 		
 	}

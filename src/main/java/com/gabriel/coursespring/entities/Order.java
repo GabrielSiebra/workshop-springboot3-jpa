@@ -3,10 +3,8 @@ package com.gabriel.coursespring.entities;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gabriel.coursespring.entities.enums.OrderStatus;
 
 import jakarta.persistence.Entity;
@@ -26,9 +24,7 @@ public class Order implements Serializable{
 	
 	@Id	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Id;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern= "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+	private Long id;
 	private Instant moment;
 	
 	private Integer orderStatus;
@@ -45,28 +41,19 @@ public class Order implements Serializable{
 
 	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 		super();
-		Id = id;
+		this.id = id;
 		this.moment = moment;
-		setOrderStatus(orderStatus);;
 		this.client = client;
+		setOrderStatus(orderStatus);
 	}
 
-	public OrderStatus getOrderStatus() throws IllegalAccessException {
-		return OrderStatus.valueOf(orderStatus);
-	}
-
-	public void setOrderStatus(OrderStatus orderStatus) {
-		if (orderStatus !=null) {
-		this.orderStatus = orderStatus.getCode();
-		}
-	}
-
+	
 	public Long getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Long id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public Instant getMoment() {
@@ -85,26 +72,45 @@ public class Order implements Serializable{
 		this.client = client;
 	}
 	
-	private Set<OrderItem> getItems() {
+	public OrderStatus getOrderStatus(){
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if (orderStatus !=null) {
+			this.orderStatus = orderStatus.getCode();
+		}
+	}
+	
+	public Set<OrderItem> getItems() {
 		return items;
+		
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
-			return true;
-		if (obj == null)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	Order other = (Order) obj;
+	if (id == null) {
+		if (other.id != null)
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Order other = (Order) obj;
-		return Objects.equals(Id, other.Id);
+	} else if (!id.equals(other.id))
+		return false;
+	return true;
 	}
 	
 	
